@@ -8,7 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
+#include <list>
 
 using Price = double;
 using Quantity = double;
@@ -41,18 +41,13 @@ class OrderBook {
 
   private:
     struct Level {
-        std::vector<Order> orders;
-    };
-
-    struct OrderLocation {
-        Side side;
-        Price price;
+        std::list<Order> orders;
     };
 
     std::string symbol_;
     std::map<Price, Level> bids_;
     std::map<Price, Level> asks_;
-    std::unordered_map<OrderId, OrderLocation> orders_by_id_;
+    std::unordered_map<OrderId, std::list<Order>::iterator> orders_by_id_;
     std::time_t last_update_;
     OrderId next_id_ = 1;
 };
